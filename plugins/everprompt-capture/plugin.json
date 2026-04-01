@@ -1,0 +1,19 @@
+{
+  "name": "everprompt-capture",
+  "description": "Automatically captures prompts to EverPrompt inbox for analysis, scoring, and organization",
+  "version": "1.0.0",
+  "hooks": {
+    "user-prompt-submit": [
+      {
+        "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/capture-prompt.sh",
+        "timeout": 5000
+      }
+    ]
+  },
+  "commands": {
+    "ep-config": {
+      "description": "Configure EverPrompt capture settings",
+      "file": "commands/ep-config.md"
+    }
+  }
+}

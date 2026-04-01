@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+/* Color variables on :root (dark default) */
+:root {
+  --color-background: #09090b;
+  --color-surface: #18181b;
+  --color-surface-hover: #1f1f23;
+  --color-border: #27272a;
+  --color-border-hover: #3f3f46;
+  --color-muted: #71717a;
+  --color-muted-foreground: #a1a1aa;
+  --color-foreground: #fafafa;
+  --color-accent: #6366f1;
+  --color-accent-hover: #818cf8;
+  --color-accent-muted: #4f46e5;
+
+  --color-band-a: #22c55e;
+  --color-band-b: #eab308;
+  --color-band-c: #f97316;
+  --color-band-d: #ef4444;
+
+  --color-success: #22c55e;
+  --color-warning: #eab308;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+}
+
+/* Light theme overrides */
+:root.light {
+  --color-background: #fafafa;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f4f4f5;
+  --color-border: #e4e4e7;
+  --color-border-hover: #d4d4d8;
+  --color-muted: #a1a1aa;
+  --color-muted-foreground: #71717a;
+  --color-foreground: #18181b;
+  --color-accent: #4f46e5;
+  --color-accent-hover: #6366f1;
+  --color-accent-muted: #818cf8;
+}
+
+@theme {
+  /* Fonts */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Animations */
+  --animate-in: fadeIn 150ms ease-out;
+  --animate-slide-up: slideUp 200ms ease-out;
+  --animate-slide-down: slideDown 200ms ease-out;
+  --animate-shimmer: shimmer 2s ease-in-out infinite;
+
+  /* Expose CSS vars to Tailwind */
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-border: var(--color-border);
+  --color-border-hover: var(--color-border-hover);
+  --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
+  --color-foreground: var(--color-foreground);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-muted: var(--color-accent-muted);
+  --color-band-a: var(--color-band-a);
+  --color-band-b: var(--color-band-b);
+  --color-band-c: var(--color-band-c);
+  --color-band-d: var(--color-band-d);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --color-info: var(--color-info);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-analyzing {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Base styles */
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-hover);
+}
+
+/* Density styles */
+[data-density="comfortable"] .density-p {
+  padding: 1.25rem;
+}
+
+[data-density="comfortable"] .density-gap {
+  gap: 1.25rem;
+}
+
+/* Monaco editor */
+.monaco-editor {
+  border-radius: var(--radius-md);
+}
+
+/* Command palette animation */
+[cmdk-overlay] {
+  animation: fadeIn 150ms ease-out;
+}
+
+[cmdk-dialog] {
+  animation: slideDown 150ms ease-out;
+}

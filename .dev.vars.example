@@ -1,0 +1,4 @@
+CLAUDE_API_KEY=sk-ant-xxxxx
+OPENAI_API_KEY=sk-xxxxx
+OPENROUTER_API_KEY=sk-or-xxxxx
+ENVIRONMENT=development

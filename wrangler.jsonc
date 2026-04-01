@@ -1,0 +1,62 @@
+{
+  "name": "everprompt-api",
+  "account_id": "68665b6277539ffa56e67803ac2d2bce",
+  "main": "apps/api/src/index.ts",
+  "compatibility_date": "2025-07-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "everprompt-db",
+      "database_id": "local",
+      "migrations_dir": "packages/db/src/migrations"
+    }
+  ],
+  "vectorize": [
+    {
+      "binding": "VECTORIZE",
+      "index_name": "everprompt-prompts"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "R2",
+      "bucket_name": "everprompt-assets"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "local"
+    }
+  ],
+  "queues": {
+    "producers": [
+      {
+        "binding": "AI_QUEUE",
+        "queue": "everprompt-ai-pipeline"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "everprompt-ai-pipeline",
+        "max_retries": 3,
+        "max_batch_size": 5,
+        "max_batch_timeout": 10
+      }
+    ]
+  },
+  "ai": {
+    "binding": "AI"
+  },
+  "vars": {
+    "ENVIRONMENT": "development"
+  },
+  "assets": {
+    "directory": "apps/web/dist",
+    "binding": "ASSETS"
+  },
+  "triggers": {
+    "crons": ["0 3 * * *"]
+  }
+}

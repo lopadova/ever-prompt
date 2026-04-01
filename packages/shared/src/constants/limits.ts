@@ -1,0 +1,11 @@
+export const MAX_PROMPT_LENGTH = 50_000;
+export const MAX_TITLE_LENGTH = 200;
+export const MAX_ABSTRACT_LENGTH = 500;
+export const MAX_TAGS_PER_PROMPT = 20;
+export const MAX_NOTE_LENGTH = 5_000;
+export const MAX_BULK_IDS = 100;
+export const MIN_PROMPT_LENGTH_PLUGIN = 50;
+export const API_KEY_PREFIX = 'ep_';
+export const API_KEY_LENGTH = 48;
+export const EMBEDDING_DIMENSIONS = 768;
+export const EMBEDDING_MAX_TOKENS = 512;
