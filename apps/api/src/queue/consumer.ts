@@ -21,8 +21,10 @@ export async function queueConsumer(
     try {
       if (msg.body.action === 'name_session') {
         await handleNameSession(env, msg.body);
+      } else if (msg.body.promptId) {
+        await runPipeline(env, msg.body.promptId);
       } else {
-        await runPipeline(env, msg.body.promptId!);
+        console.error('Queue message missing promptId for action:', msg.body.action);
       }
       msg.ack();
     } catch (e) {

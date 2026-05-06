@@ -49,8 +49,10 @@ promptRoutes.post('/ingest', async (c) => {
 // GET / - List prompts
 promptRoutes.get('/', async (c) => {
   const d = db(c.env.DB);
-  const page = parseInt(c.req.query('page') || '1', 10);
-  const perPage = parseInt(c.req.query('per_page') || '24', 10);
+  const rawPage = parseInt(c.req.query('page') || '1', 10);
+  const rawPerPage = parseInt(c.req.query('per_page') || '24', 10);
+  const page = isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
+  const perPage = isNaN(rawPerPage) || rawPerPage < 1 ? 24 : rawPerPage;
   const status = c.req.query('status');
   const projectId = c.req.query('project_id');
   const categoryId = c.req.query('category_id');

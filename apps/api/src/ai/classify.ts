@@ -57,16 +57,11 @@ ${input.body_normalized}
 
 Return ONLY valid JSON, no markdown fences.`;
 
-  let text: string;
-  try {
-    text = await input.llm.chat({
-      messages: [{ role: 'user', content: prompt }],
-      maxTokens: 1024,
-      model: input.model,
-    });
-  } catch (err) {
-    throw err;
-  }
+  const text = await input.llm.chat({
+    messages: [{ role: 'user', content: prompt }],
+    maxTokens: 1024,
+    model: input.model,
+  });
 
   let result: ClassificationResult;
   try {

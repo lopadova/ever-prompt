@@ -7,6 +7,7 @@ export const DEFAULT_SORT = { field: 'created_at' as const, dir: 'desc' as const
 export const DEFAULT_PER_PAGE = 24;
 export const MAX_PER_PAGE = 100;
 export const SEMANTIC_TOP_K = 50;
+export const MAX_KEYWORD_SEARCH_LIMIT = 200;
 
 export const SEARCH_WEIGHTS = {
   semantic: 0.45,
