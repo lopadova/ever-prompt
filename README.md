@@ -24,6 +24,7 @@ EverPrompt transforms every prompt you write into a **versioned, scored, improva
 1. **Intelligent Archive** -- Store, organize, and version every prompt across projects, categories, and tags
 2. **AI Critic** -- Automatically score prompts on 10 quality dimensions, provide detailed judgment, and generate improved versions
 3. **Semantic Retrieval Engine** -- Find prompts by meaning (not just keywords) using hybrid search: structured filters + full-text + vector similarity
+4. **Claude CLI Plugin** -- include Claude CLI Plugin for automatic send prompt to everprompt with session contest e filters group.
 
 The entire stack runs on Cloudflare's edge infrastructure: Workers, D1, Vectorize, Queues, R2, KV. The AI pipeline supports **4 LLM providers** (Anthropic, OpenAI, OpenRouter, Workers AI) configurable at runtime.
 
