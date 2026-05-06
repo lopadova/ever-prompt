@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "wrangler dev --config ../../wrangler.jsonc",
     "build": "wrangler deploy --dry-run --config ../../wrangler.jsonc",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@everprompt/shared": "workspace:*",
@@ -14,5 +16,8 @@
     "drizzle-orm": "^0.39.0",
     "@anthropic-ai/sdk": "^0.39.0",
     "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "vitest": "^2.0.0"
   }
 }

@@ -65,7 +65,7 @@ async function getPruneCandidates(
       created_at: prompts.created_at,
     })
     .from(prompts)
-    .where(baseConditions!)
+    .where(baseConditions)
     .orderBy(sql`${prompts.created_at} ASC`);
 
   return rows;

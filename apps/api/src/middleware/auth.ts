@@ -30,9 +30,16 @@ export const authMiddleware = createMiddleware<Env>(async (c, next) => {
       d.update(apiKeys).set({ last_used_at: new Date().toISOString() }).where(eq(apiKeys.id, key.id))
     );
 
+    let permissions: string[] = [];
+    try {
+      permissions = JSON.parse(key.permissions);
+    } catch {
+      return c.json({ ok: false, error: { code: 'UNAUTHORIZED', message: 'Invalid API key configuration' } }, 401);
+    }
+
     c.set('authType', 'api_key');
     c.set('apiKeyId', key.id);
-    c.set('permissions', JSON.parse(key.permissions));
+    c.set('permissions', permissions);
     return next();
   }
 

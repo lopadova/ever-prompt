@@ -4,6 +4,7 @@ import {
   parseSearchQuery,
   SEARCH_WEIGHTS,
   SEMANTIC_TOP_K,
+  MAX_KEYWORD_SEARCH_LIMIT,
 } from '@everprompt/shared';
 import type { SearchFilters, SearchFacets, PromptListItem } from '@everprompt/shared';
 import type { DB } from '../lib/db';
@@ -154,6 +155,12 @@ export async function hybridSearch(params: HybridSearchParams) {
   };
 }
 
+// Escape special LIKE wildcard characters in user input so they are treated literally.
+// SQLite LIKE supports ESCAPE to define an escape character.
+function escapeLike(value: string): string {
+  return value.replace(/\\/g, '\\\\').replace(/%/g, '\\%').replace(/_/g, '\\_');
+}
+
 function buildSqlConditions(filters: SearchFilters, freeText: string) {
   const conditions = [];
 
@@ -205,9 +212,9 @@ function buildSqlConditions(filters: SearchFilters, freeText: string) {
     conditions.push(sql`${prompts.updated_at} <= ${filters.updated_before}`);
   }
 
-  // Keyword search: LIKE on search_text
+  // Keyword search: LIKE on search_text (wildcards in user input are escaped)
   if (freeText) {
-    conditions.push(sql`${prompts.search_text} LIKE ${'%' + freeText + '%'}`);
+    conditions.push(sql`${prompts.search_text} LIKE ${'%' + escapeLike(freeText) + '%'} ESCAPE '\\'`);
   }
 
   return conditions;
@@ -220,11 +227,11 @@ async function runKeywordSearch(
 ) {
   const where = conditions.length > 0 ? and(...conditions) : undefined;
 
-  // Fetch up to 200 results for merging
+  // Fetch up to MAX_KEYWORD_SEARCH_LIMIT results for merging
   const results = await d.select().from(prompts)
     .where(where)
     .orderBy(desc(prompts.created_at))
-    .limit(200);
+    .limit(MAX_KEYWORD_SEARCH_LIMIT);
 
   return results;
 }
@@ -386,7 +393,7 @@ export async function getSuggestions(
     id: prompts.id,
     title: prompts.title,
   }).from(prompts)
-    .where(sql`${prompts.title} LIKE ${'%' + q + '%'} AND ${prompts.status} != 'deleted'`)
+    .where(sql`${prompts.title} LIKE ${'%' + escapeLike(q) + '%'} ESCAPE '\\' AND ${prompts.status} != 'deleted'`)
     .orderBy(desc(prompts.updated_at))
     .limit(5);
 
@@ -396,7 +403,7 @@ export async function getSuggestions(
     id: savedSearches.id,
     name: savedSearches.name,
   }).from(savedSearches)
-    .where(sql`${savedSearches.name} LIKE ${'%' + q + '%'}`)
+    .where(sql`${savedSearches.name} LIKE ${'%' + escapeLike(q) + '%'} ESCAPE '\\'`)
     .limit(3);
 
   return {

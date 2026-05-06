@@ -25,7 +25,7 @@ export interface ScoreOutput {
   recommended_actions: string[];
 }
 
-function computeWeightedScore(scores: Record<string, number>): number {
+export function computeWeightedScore(scores: Record<string, number>): number {
   let total = 0;
   for (const [dim, weight] of Object.entries(SCORE_WEIGHTS)) {
     const score = scores[dim];
@@ -36,7 +36,7 @@ function computeWeightedScore(scores: Record<string, number>): number {
   return Math.round(total * 10) / 10;
 }
 
-function determineQualityBand(score: number): QualityBand {
+export function determineQualityBand(score: number): QualityBand {
   if (score >= 85) return 'A';
   if (score >= 70) return 'B';
   if (score >= 50) return 'C';
@@ -56,16 +56,11 @@ ${input.body_original}
 
 Return ONLY valid JSON, no markdown fences.`;
 
-  let text: string;
-  try {
-    text = await input.llm.chat({
-      messages: [{ role: 'user', content: prompt }],
-      maxTokens: 4096,
-      model: input.model,
-    });
-  } catch (err) {
-    throw err;
-  }
+  const text = await input.llm.chat({
+    messages: [{ role: 'user', content: prompt }],
+    maxTokens: 4096,
+    model: input.model,
+  });
 
   let result: ScoreResult;
   try {
@@ -112,7 +107,7 @@ Return ONLY valid JSON, no markdown fences.`;
   };
 }
 
-function clampScore(val: unknown): number {
+export function clampScore(val: unknown): number {
   if (typeof val !== 'number' || isNaN(val)) return 0;
   return Math.min(100, Math.max(0, Math.round(val * 10) / 10));
 }

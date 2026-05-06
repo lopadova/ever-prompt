@@ -39,9 +39,14 @@ bulkRoutes.post('/bulk/tag', async (c) => {
     }
     if (remove_tag_ids) {
       for (const tagId of remove_tag_ids) {
-        const deleted = await d.delete(promptTags)
-          .where(sql`${promptTags.prompt_id} = ${promptId} AND ${promptTags.tag_id} = ${tagId}`);
-        await d.update(tags).set({ usage_count: sql`MAX(${tags.usage_count} - 1, 0)` }).where(eq(tags.id, tagId));
+        const existing = await d.select().from(promptTags)
+          .where(sql`${promptTags.prompt_id} = ${promptId} AND ${promptTags.tag_id} = ${tagId}`)
+          .limit(1);
+        if (existing.length > 0) {
+          await d.delete(promptTags)
+            .where(sql`${promptTags.prompt_id} = ${promptId} AND ${promptTags.tag_id} = ${tagId}`);
+          await d.update(tags).set({ usage_count: sql`MAX(${tags.usage_count} - 1, 0)` }).where(eq(tags.id, tagId));
+        }
       }
     }
     affected++;
